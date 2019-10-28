@@ -53,12 +53,21 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         return tweets.size();
     }
 
-    public void addTweets(List<Tweet> list) {
+    public void addTweetsToFront(List<Tweet> list) {
         int startIndex = tweets.size();
         Collections.reverse(tweets);
         Collections.reverse(list);
         tweets.addAll(list);
         Collections.reverse(tweets);
+
+        if (list.size() != 0) {
+            notifyItemRangeChanged(startIndex, list.size());
+        }
+    }
+
+    public void addTweetsToBack(List<Tweet> list) {
+        int startIndex = tweets.size();
+        tweets.addAll(list);
 
         if (list.size() != 0) {
             notifyItemRangeChanged(startIndex, list.size());
