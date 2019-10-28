@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate.timeline;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
+
+    private final String TAG = TweetsAdapter.class.getSimpleName();
 
     Context context;
     List<Tweet> tweets;
@@ -107,7 +110,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         }
 
         public void bind(Tweet tweet) {
-            tvBody.setText(tweet.body);
+            // Remove twitter link from the end of the tweet
+            String pattern = "https://t.co/[\\w]{10}$";
+//            tvBody.setText(tweet.body.replaceAll(pattern, ""));
+            tvBody.setText(tweet.body.replaceAll(pattern, ""));
             tvUsername.setText(tweet.user.name);
             tvHandle.setText("@" + tweet.user.screenName);
             tvAge.setText(Tweet.getFormattedTimestamp(tweet));

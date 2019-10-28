@@ -21,7 +21,7 @@ public class Tweet {
         Tweet tweet = new Tweet();
 
         tweet.id = jsonObject.getLong("id");
-        tweet.body = jsonObject.getString("text");
+        tweet.body = jsonObject.getString("full_text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
 
