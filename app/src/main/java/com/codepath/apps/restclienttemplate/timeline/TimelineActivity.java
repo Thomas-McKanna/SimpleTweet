@@ -35,6 +35,8 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     SwipeRefreshLayout swipeContainer;
 
+    private long sinceID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +69,7 @@ public class TimelineActivity extends AppCompatActivity {
         DividerItemDecoration decoration = new DividerItemDecoration(this, LinearLayout.VERTICAL);
         rvTweets.addItemDecoration(decoration);
 
+        sinceID = 1;
         populateHomeTimeline();
     }
 
@@ -77,7 +80,10 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess" + json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
-                    tweets.addAll(Tweet.fromJsonArray(jsonArray));
+                    adapter.addTweets(Tweet.fromJsonArray(jsonArray));
+                    if (tweets.size() != 0) {
+                        sinceID = tweets.get(0).id;
+                    }
                     adapter.notifyDataSetChanged();
                     swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
@@ -89,6 +95,6 @@ public class TimelineActivity extends AppCompatActivity {
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.i(TAG, "onFailure", throwable);
             }
-        });
+        }, sinceID);
     }
 }

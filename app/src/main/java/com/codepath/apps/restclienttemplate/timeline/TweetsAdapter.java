@@ -16,6 +16,7 @@ import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.TwitterApp;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
+import java.util.Collections;
 import java.util.List;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
@@ -52,9 +53,16 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         return tweets.size();
     }
 
-    public void addTweets(List<Tweet> tweets) {
-        tweets.addAll(tweets);
-        notifyDataSetChanged();
+    public void addTweets(List<Tweet> list) {
+        int startIndex = tweets.size();
+        Collections.reverse(tweets);
+        Collections.reverse(list);
+        tweets.addAll(list);
+        Collections.reverse(tweets);
+
+        if (list.size() != 0) {
+            notifyItemRangeChanged(startIndex, list.size());
+        }
     }
 
     // Define a viewholder
