@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.timeline;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -85,11 +87,23 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            Typeface regular = ResourcesCompat.getFont(context, R.font.helvetica_neue_regular);
+            Typeface bold = ResourcesCompat.getFont(context, R.font.helvetica_neue_bold);
+
             ivProfileImage = itemView.findViewById(R.id.ivUserPicture);
+
             tvBody = itemView.findViewById(R.id.tvBody);
+            tvBody.setTypeface(regular);
+
             tvUsername = itemView.findViewById(R.id.tvUsername);
+            tvUsername.setTypeface(bold);
+
             tvHandle = itemView.findViewById(R.id.tvHandle);
+            tvHandle.setTypeface(regular);
+
             tvAge = itemView.findViewById(R.id.tvAge);
+            tvAge.setTypeface(regular);
         }
 
         public void bind(Tweet tweet) {
