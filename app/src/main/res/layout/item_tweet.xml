@@ -11,14 +11,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.175" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineEnd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.95" />
 
     <ImageView
         android:id="@+id/ivUserPicture"
@@ -81,6 +81,7 @@
         android:textColor="@color/secondary_black"
         android:autoLink="all"
         android:linksClickable="true"
+        android:paddingBottom="@dimen/item_tweet_image_margin"
         style="@android:style/TextAppearance.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/guidelineBegin"
@@ -88,26 +89,37 @@
         tools:text="And by 100% today I mean 100% tomorrow for sure\n\nThanks for the great stream boys, I'll be back tomorrow and we're going to kill Rag with our scuffed raid :D" />
 
     <ImageView
+        android:id="@+id/ivThumbnail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toEndOf="@id/guidelineBegin"
+        app:layout_constraintTop_toBottomOf="@id/tvBody"
+        app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageView
         android:id="@+id/ivShare"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_share"
-        android:layout_marginTop="@dimen/item_tweet_icon_body_margin"
+        android:layout_marginTop="@dimen/item_tweet_image_margin"
         app:layout_constraintEnd_toStartOf="@id/guidelineEnd"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/llLikeTweet"
-        app:layout_constraintTop_toBottomOf="@id/tvBody" />
+        app:layout_constraintTop_toBottomOf="@id/ivThumbnail" />
 
     <LinearLayout
         android:id="@+id/llLikeTweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/item_tweet_icon_body_margin"
+        android:layout_marginTop="@dimen/item_tweet_image_margin"
         app:layout_constraintEnd_toStartOf="@+id/ivShare"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/llReTweet"
-        app:layout_constraintTop_toBottomOf="@id/tvBody">
+        app:layout_constraintTop_toBottomOf="@id/ivThumbnail">
 
         <ImageView
             android:id="@+id/ivHeart"
@@ -131,11 +143,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/item_tweet_icon_body_margin"
+        android:layout_marginTop="@dimen/item_tweet_image_margin"
 
         app:layout_constraintStart_toEndOf="@+id/ivUserPicture"
         app:layout_constraintStart_toStartOf="@id/guidelineBegin"
-        app:layout_constraintTop_toBottomOf="@id/tvBody">
+        app:layout_constraintTop_toBottomOf="@id/ivThumbnail">
 
         <ImageView
             android:id="@+id/ivRepeat"
