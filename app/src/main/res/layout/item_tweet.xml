@@ -129,11 +129,11 @@
             android:src="@drawable/ic_heart_outline" />
 
         <TextView
-            android:id="@+id/tvLikeCount"
+            android:id="@+id/tvFavoriteCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@android:style/TextAppearance.Medium"
-            android:textColor="@color/secondary_light_gray"
+            android:textColor="@color/secondary_dark_gray"
             tools:text="188" />
 
     </LinearLayout>
@@ -160,7 +160,7 @@
             android:id="@+id/tvRetweetCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/secondary_light_gray"
+            android:textColor="@color/secondary_dark_gray"
             style="@android:style/TextAppearance.Medium"
             tools:text="5" />
 

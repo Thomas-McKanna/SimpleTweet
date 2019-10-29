@@ -23,6 +23,8 @@ public class Tweet {
     public String displayUrl;
     public String expandedUrl;
     public String imageUrl;
+    public int retweetCount;
+    public int favoriteCount;
 
 
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
@@ -47,6 +49,8 @@ public class Tweet {
         tweet.id = jsonObject.getLong("id");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.retweetCount = jsonObject.getInt("retweet_count");
+        tweet.favoriteCount = jsonObject.getInt("favorite_count");
 
         // Remove twitter link from the end of the tweet
         String pattern = "https://t.co/[\\w]{10}$";

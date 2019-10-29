@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.timeline;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
@@ -101,6 +102,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvUsername;
         TextView tvHandle;
         TextView tvAge;
+        TextView tvRetweetCount;
+        TextView tvFavoriteCount;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -123,6 +126,12 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             tvAge = itemView.findViewById(R.id.tvAge);
             tvAge.setTypeface(regular);
+
+            tvRetweetCount = itemView.findViewById(R.id.tvRetweetCount);
+            tvRetweetCount.setTypeface(regular);
+
+            tvFavoriteCount = itemView.findViewById(R.id.tvFavoriteCount);
+            tvFavoriteCount.setTypeface(regular);
         }
 
         public void bind(Tweet tweet) {
@@ -136,6 +145,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvUsername.setText(tweet.user.name);
             tvHandle.setText("@" + tweet.user.screenName);
             tvAge.setText(Tweet.getFormattedTimestamp(tweet));
+            tvRetweetCount.setText(Integer.toString(tweet.retweetCount));
+            tvFavoriteCount.setText(Integer.toString(tweet.favoriteCount));
+
 
             Glide.with(context)
                     .load(tweet.user.profileImageUrl)
