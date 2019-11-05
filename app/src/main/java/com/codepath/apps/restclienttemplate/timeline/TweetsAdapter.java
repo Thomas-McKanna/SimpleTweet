@@ -25,7 +25,9 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.TwitterApp;
+import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -35,6 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
 
@@ -43,10 +46,14 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     Context context;
     List<Tweet> tweets;
 
+    TwitterClient client;
+
     // Pass in the context and list of tweets
     public TweetsAdapter(Context context, List<Tweet> tweets) {
         this.context = context;
         this.tweets = tweets;
+
+        client = TwitterApp.getRestClient(context);
     }
 
     // For each row, inflate the layout
@@ -98,12 +105,16 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         ImageView ivProfileImage;
         ImageView ivThumbnail;
+        ImageView ivHeart;
+        ImageView ivRetweet;
         TextView tvBody;
         TextView tvUsername;
         TextView tvHandle;
         TextView tvAge;
         TextView tvRetweetCount;
         TextView tvFavoriteCount;
+        Tweet tweet;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -114,6 +125,10 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivProfileImage = itemView.findViewById(R.id.ivUserPicture);
 
             ivThumbnail =itemView.findViewById(R.id.ivThumbnail);
+
+            ivHeart = itemView.findViewById(R.id.ivHeart);
+
+            ivRetweet = itemView.findViewById(R.id.ivRepeat);
 
             tvBody = itemView.findViewById(R.id.tvBody);
             tvBody.setTypeface(regular);
@@ -134,7 +149,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvFavoriteCount.setTypeface(regular);
         }
 
-        public void bind(Tweet tweet) {
+        public void bind(final Tweet tweet) {
+            this.tweet = tweet;
 
             if (tweet.shortenedUrl != null && tweet.imageUrl == null) {
                 // Try to fetch an image for this tweet
@@ -148,6 +164,111 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvRetweetCount.setText(Integer.toString(tweet.retweetCount));
             tvFavoriteCount.setText(Integer.toString(tweet.favoriteCount));
 
+            // Set listener for when user "likes" a tweet
+            ivHeart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Tweet tweet = ViewHolder.this.tweet;
+                    if (tweet != null) {
+                        if (tweet.favorited) {
+                            client.unfavoriteTweet(tweet.id, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                    Log.i(TAG, "Successfully unfavorited the tweet");
+                                    ViewHolder.this.tweet.favorited = false;
+                                    ivHeart.setImageResource(R.drawable.ic_heart_outline);
+                                    // Decrement favorite counter
+                                    String currentFavoriteCount = tvFavoriteCount.getText().toString();
+                                    Integer newCount = Integer.parseInt(currentFavoriteCount) - 1;
+                                    tvFavoriteCount.setText(newCount.toString());
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                    Log.e(TAG, "Failed to unfavorite the tweet", throwable);
+                                }
+                           });
+                        }
+                        else {
+                            client.favoriteTweet(tweet.id, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                    Log.i(TAG, "Successfully favorited the tweet");
+                                    ViewHolder.this.tweet.favorited = true;
+                                    ivHeart.setImageResource(R.drawable.ic_heart_outline_red);
+                                    // Increment favorite counter
+                                    String currentFavoriteCount = tvFavoriteCount.getText().toString();
+                                    Integer newCount = Integer.parseInt(currentFavoriteCount) + 1;
+                                    tvFavoriteCount.setText(newCount.toString());
+                                }
+
+                                @Override
+                              public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                   Log.e(TAG, "Failed to favorite the tweet", throwable);
+                               }
+                            });
+                       }
+                    }
+                }
+            });
+
+            // Set listener for when user "retweets" a tweet
+            ivRetweet.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Tweet tweet = ViewHolder.this.tweet;
+                    if (tweet != null) {
+                        if (tweet.retweeted) {
+                            client.unretweet(tweet.id, new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                    Log.i(TAG, "Successfully unretweeted the tweet");
+                                    ViewHolder.this.tweet.retweeted = false;
+                                    ivRetweet.setImageResource(R.drawable.ic_repeat);
+                                    // Decrement retweeted counter
+                                    String currentRetweetCount = tvRetweetCount.getText().toString();
+                                    Integer newCount = Integer.parseInt(currentRetweetCount) - 1;
+                                    tvRetweetCount.setText(newCount.toString());
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                    Log.e(TAG, "Failed to unfavorite the tweet", throwable);
+                                }
+                            });
+                        }
+                        else {
+                            client.retweet(tweet.id, "", new JsonHttpResponseHandler() {
+                                @Override
+                                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                    Log.i(TAG, "Successfully retweeted the tweet");
+                                    ViewHolder.this.tweet.retweeted = true;
+                                    ivRetweet.setImageResource(R.drawable.ic_repeat_green);
+                                    // Increment retweeted counter
+                                    String currentRetweetCount = tvRetweetCount.getText().toString();
+                                    Integer newCount = Integer.parseInt(currentRetweetCount) + 1;
+                                    tvRetweetCount.setText(newCount.toString());
+                                }
+
+                                @Override
+                                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                    Log.e(TAG, "Failed to favorite the tweet", throwable);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+
+            // Change color of icon if user has favorited this tweet
+            if (tweet.favorited) {
+                ivHeart.setImageResource(R.drawable.ic_heart_outline_red);
+            }
+
+            // Change color of icon if user have retweeted this tweet
+            if (tweet.retweeted) {
+                ivRetweet.setImageResource(R.drawable.ic_repeat_green);
+            }
 
             Glide.with(context)
                     .load(tweet.user.profileImageUrl)

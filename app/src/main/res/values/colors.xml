@@ -7,4 +7,6 @@
     <color name="secondary_extra_light_gray">#E1E8ED</color>
     <color name="secondary_extra_extra_light_gray">#F5F8FA</color>
     <color name="secondary_white">#FFFFFF</color>
+    <color name="heart_read">#FF7070</color>
+    <color name="green">#00CC00</color>
 </resources>

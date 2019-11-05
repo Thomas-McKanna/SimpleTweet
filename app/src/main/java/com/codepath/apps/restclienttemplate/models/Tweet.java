@@ -27,6 +27,8 @@ public class Tweet {
     public String imageUrl;
     public int retweetCount;
     public int favoriteCount;
+    public Boolean favorited;
+    public Boolean retweeted;
 
     // Empty constructor needed by Parceler library
     public Tweet(){}
@@ -55,6 +57,8 @@ public class Tweet {
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.retweetCount = jsonObject.getInt("retweet_count");
         tweet.favoriteCount = jsonObject.getInt("favorite_count");
+        tweet.favorited = jsonObject.getBoolean("favorited");
+        tweet.retweeted = jsonObject.getBoolean("retweeted");
 
         // Remove twitter link from the end of the tweet
         String pattern = "https://t.co/[\\w]{10}$";
@@ -82,8 +86,7 @@ public class Tweet {
         tweet.favoriteCount = jsonObject.getInt("favorite_count");
 
         // Remove twitter link from the end of the tweet
-//        String pattern = "https://t.co/[\\w]{10}$";
-        tweet.body = jsonObject.getString("text");//.replaceAll(pattern, "");
+        tweet.body = jsonObject.getString("text");
 
         return tweet;
     }
