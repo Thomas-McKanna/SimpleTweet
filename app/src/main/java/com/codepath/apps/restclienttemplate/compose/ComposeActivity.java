@@ -51,6 +51,13 @@ public class ComposeActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         etCompose = findViewById(R.id.etStatus);

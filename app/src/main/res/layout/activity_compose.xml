@@ -30,32 +30,22 @@
             android:textAllCaps="false"/>
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.2" />
-
-    <ImageView
-        android:id="@+id/ivUserPicture"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/item_tweet_iv_margin"
-        android:scaleType="fitStart"
-        app:layout_constraintEnd_toStartOf="@id/guideline"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <EditText
-        android:id="@+id/etStatus"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/whats_happening"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toEndOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Gene therapy has successfully been used to trate age-related ailments in mice. Now it's bein studies in dogs, with the eventual hopes to test it in humans."/>
+        app:counterEnabled="true"
+        app:counterMaxLength="140"
+        app:counterTextAppearance="@style/AppTheme"
+        app:counterOverflowTextAppearance="@style/AppTheme">
+        <EditText
+            android:id="@+id/etStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/large_text_break"
+            tools:text="Gene therapy has successfully been used to trate age-related ailments in mice. Now it's bein studies in dogs, with the eventual hopes to test it in humans."/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

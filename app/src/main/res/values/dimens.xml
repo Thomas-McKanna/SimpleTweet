@@ -5,6 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="item_tweet_iv_margin">10dp</dimen>
     <dimen name="small_text_break">5dp</dimen>
+    <dimen name="large_text_break">16dp</dimen>
     <dimen name="item_tweet_icon_text_margin">5dp</dimen>
     <dimen name="item_tweet_image_margin">16dp</dimen>
     <dimen name="item_tweet_bottom_margin">8dp</dimen>
