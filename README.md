@@ -36,13 +36,13 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://github.com/Thomas-McKanna/SimpleTweet/raw/master/simpletweet1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+The URL for the tweet images comes from using the meta tags of web pages which the tweet links to. If no appropriate meta tag is present, no image is displayed with the tweet. Images can load in after the RecyclerView Viewholder has been bound, and the RecyclerView is notified of the index in the dataset which has changed, which triggers the image to be loaded.
 
 ## Open-source libraries used
 
