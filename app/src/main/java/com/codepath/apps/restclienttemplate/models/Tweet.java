@@ -7,10 +7,12 @@ import com.codepath.apps.restclienttemplate.utility.TimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Parcel
 public class Tweet {
 
     public static final String TAG = Tweet.class.getSimpleName();
@@ -26,8 +28,10 @@ public class Tweet {
     public int retweetCount;
     public int favoriteCount;
 
+    // Empty constructor needed by Parceler library
+    public Tweet(){}
 
-    public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
+    public static Tweet fromExtendedJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
 
         tweet.displayUrl = null;
@@ -64,11 +68,31 @@ public class Tweet {
         return tweet;
     }
 
+    public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
+        Tweet tweet = new Tweet();
+
+        tweet.displayUrl = null;
+        tweet.expandedUrl = null;
+        tweet.imageUrl = null;
+
+        tweet.id = jsonObject.getLong("id");
+        tweet.createdAt = jsonObject.getString("created_at");
+        tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.retweetCount = jsonObject.getInt("retweet_count");
+        tweet.favoriteCount = jsonObject.getInt("favorite_count");
+
+        // Remove twitter link from the end of the tweet
+//        String pattern = "https://t.co/[\\w]{10}$";
+        tweet.body = jsonObject.getString("text");//.replaceAll(pattern, "");
+
+        return tweet;
+    }
+
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException{
         List<Tweet> tweets = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            tweets.add(fromJson(jsonArray.getJSONObject(i)));
+            tweets.add(fromExtendedJson(jsonArray.getJSONObject(i)));
         }
 
         return tweets;

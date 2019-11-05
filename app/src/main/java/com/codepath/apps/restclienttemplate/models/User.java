@@ -4,12 +4,17 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
+@Parcel
 public class User {
 
     public String name;
     public String screenName;
     public String profileImageUrl;
+
+    // Empty constructor needed by Parceler library
+    public User(){}
 
     public static User fromJson(JSONObject jsonObject) throws JSONException {
         User user = new User();

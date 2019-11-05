@@ -47,6 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_text_break"
         android:textColor="@color/secondary_dark_gray"
+        android:ellipsize="middle"
+        android:singleLine="true"
         style="@android:style/TextAppearance.Medium"
         app:layout_constraintStart_toEndOf="@id/tvUsername"
         app:layout_constraintTop_toTopOf="@id/ivUserPicture"
@@ -65,11 +67,11 @@
 
     <TextView
         android:id="@+id/tvAge"
+        style="@android:style/TextAppearance.Medium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_text_break"
         android:textColor="@color/secondary_dark_gray"
-        style="@android:style/TextAppearance.Medium"
         app:layout_constraintStart_toEndOf="@id/tvDot"
         app:layout_constraintTop_toTopOf="@id/ivUserPicture"
         tools:text="1h" />

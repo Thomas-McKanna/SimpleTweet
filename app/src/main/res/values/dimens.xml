@@ -8,5 +8,7 @@
     <dimen name="item_tweet_icon_text_margin">5dp</dimen>
     <dimen name="item_tweet_image_margin">16dp</dimen>
     <dimen name="item_tweet_bottom_margin">8dp</dimen>
+    <dimen name="floating_action_button_margin">16dp</dimen>
+    <dimen name="tweet_button_margin">10dp</dimen>
 
 </resources>
